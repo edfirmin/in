@@ -1,0 +1,8 @@
+version: "3"
+
+services:
+
+    nginx: 
+        ports:
+            - "443:443"
+        build: requirements/nginx
