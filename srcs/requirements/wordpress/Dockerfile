@@ -1,14 +1,18 @@
-FROM debian:buster
+FROM alpine:3.18
 
-RUN apt update -y && apt upgrade -y
-RUN apt-get -y install wget
-RUN apt-get install -y php7.3\
-	php-fpm\
-	php-mysql\
-	mariadb-client
-RUN wget https://fr.wordpress.org/wordpress-6.5.5-fr_FR.tar.gz -P /var/www
-#RUN cd /var/www
-WORKDIR /var/www
-RUN tar -xzf wordpress-6.5.5-fr_FR.tar.gz
-RUN rm -rf wordpress-6.5.5-fr_FR.tar.gz
-RUN	chown -R root:root /var/www/wordpress
+RUN apk update && apk upgrade
+RUN apk add --no-cache wget
+RUN apk add php82\
+	php82-fpm\
+	php82-mysqli
+
+#COPY ./conf/www.conf /etc/php82/php-fpm.d/www.conf
+
+RUN mkdir /var/www /var/www/html && chmod 667 /var/www/html
+RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -P /usr/local/bin/wp
+WORKDIR /usr/local/bin/wp
+RUN chmod +x wp-cli.phar
+#RUN	chown -R root:root /var/www/wordpress
+
+
+EXPOSE 9000
