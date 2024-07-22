@@ -14,5 +14,6 @@ WORKDIR /usr/local/bin/wp
 RUN chmod +x wp-cli.phar
 #RUN	chown -R root:root /var/www/wordpress
 
-
 EXPOSE 9000
+
+#ENTRYPOINT []
