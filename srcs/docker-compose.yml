@@ -1,9 +1,23 @@
-version: '3'
-
 networks:
   inception : 
     name: inception
+    driver : bridge
 
+volumes:
+  wordpress:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/home/edfirmin/Documents/data/wordpress'
+    name: wordpress
+  mariadb:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/home/edfirmin/Documents/data/mariadb'
+    name: mariadb
 
 services:
 
@@ -46,3 +60,4 @@ services:
       restart: always
       expose:
         - "9000"
+  
