@@ -1,19 +1,46 @@
-FROM alpine:3.18
+# FROM alpine:3.18
 
-RUN apk update && apk upgrade
-RUN apk add --no-cache wget
-RUN apk add php82\
-	php82-fpm\
-	php82-mysqli
+# RUN apk update && apk upgrade
+# RUN apk add --no-cache wget curl
+# RUN apk add php82\
+# 	php82-fpm\
+# 	php82-mysqli
 
-#COPY ./conf/www.conf /etc/php82/php-fpm.d/www.conf
+# RUN adduser -S user-fpm && addgroup -S user-fmp
+# RUN curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && chmod +x /usr/local/bin/wp
+# COPY ./conf/www.conf /etc/php82/php-fpm.d/www.conf
+# COPY ./conf/wp-config.php /wp-config.php
+# COPY ./tools/script.sh /script.sh
+# RUN	chmod 777 ./script.sh
+# #RUN cd /var/www
+# RUN mkdir -p /var/www /var/www/html
+# RUN	chmod 777 /var/www/html
 
-RUN mkdir /var/www /var/www/html && chmod 667 /var/www/html
-RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -P /usr/local/bin/wp
-WORKDIR /usr/local/bin/wp
-RUN chmod +x wp-cli.phar
-#RUN	chown -R root:root /var/www/wordpress
+# #RUN mkdir /var/www /var/www/html && chmod 667 /var/www/html
+
+# EXPOSE 9000
+# ENTRYPOINT ["sh", "script.sh"]
+
+
+FROM alpine:3.19
+
+RUN apk update && apk upgrade && apk add --no-cache wget curl php82 php82-fpm mariadb-client php82-mysqli php82-phar php82-openssl php82-pdo_mysql php82-curl php82-json php82-dom php82-session php82-mbstring php82-simplexml php82-tokenizer php82-xml php82-xmlwriter php82-xmlreader
+
+#WP-CLI = config wordpress via commandes
+RUN curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && chmod +x /usr/local/bin/wp
+
+#ajoute un user pour php-fpm
+RUN adduser -S user-wp && addgroup -S user-wp
+
+#copie les fichiers de conf et cree le dossier var/wwww qui contient les fichiers wordpress
+COPY ./conf/www.conf /etc/php82/php-fpm.d/www.conf
+COPY ./conf/wp-config.php /wp-config.php
+COPY ./conf/index.php /index.php
+COPY ./tools/script.sh ./script.sh
+RUN chmod 777 ./script.sh
+RUN mkdir /var/www
+RUN mkdir /var/www/html
+RUN chmod 777 /var/www/html
 
 EXPOSE 9000
-
-#ENTRYPOINT []
+ENTRYPOINT	["sh", "script.sh"]

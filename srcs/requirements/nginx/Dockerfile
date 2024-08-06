@@ -12,7 +12,6 @@ RUN apk update && apk upgrade &&  apk add --no-cache nginx gettext
 
 COPY ./conf/nginx.conf /etc/nginx/http.d/default.conf
 COPY ./tools/img.png /var/www/html
-COPY ./conf/page.html /var/www/html/index.html
 COPY ./tools/edfirmin.42.crt /etc/nginx/ssl/edfirmin.42.crt
 COPY ./tools/edfirmin.42.key /etc/nginx/ssl/edfirmin.42.key
 

@@ -10,14 +10,12 @@ volumes:
       type: 'none'
       o: 'bind'
       device: '/home/edfirmin/Documents/data/wordpress'
-    name: wordpress
   mariadb:
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
       device: '/home/edfirmin/Documents/data/mariadb'
-    name: mariadb
 
 services:
 
@@ -36,7 +34,7 @@ services:
     nginx: 
       container_name: nginx
       volumes:
-        - wordpress:/var/www/wordpress
+        - wordpress:/var/www/html
       networks:
         - inception
       depends_on:
@@ -50,7 +48,7 @@ services:
     wordpress:
       container_name: wordpress
       volumes:
-        - wordpress:/var/www/wordpress
+        - wordpress:/var/www/html
       networks:
         - inception
       depends_on:

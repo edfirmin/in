@@ -20,22 +20,25 @@
 
 // ** Database settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define( 'DB_NAME', 'database_name_here' );
+define( 'DB_NAME', getenv('SQL_DATABASE'));
 
 /** Database username */
-define( 'DB_USER', 'username_here' );
+define( 'DB_USER', getenv('SQL_USER'));
 
 /** Database password */
-define( 'DB_PASSWORD', 'password_here' );
+define( 'DB_PASSWORD', getenv('SQL_USER_PASSWORD'));
 
 /** Database hostname */
-define( 'DB_HOST', 'localhost' );
+define( 'DB_HOST', getenv('DB_HOST'));
 
 /** Database charset to use in creating database tables. */
 define( 'DB_CHARSET', 'utf8' );
 
 /** The database collate type. Don't change this if in doubt. */
-define( 'DB_COLLATE', '' );
+define( 'DB_COLLATE', 'utf8_bin' );
+
+define('WP_SITEURL', 'https://' . getenv('DOMAIN_NAME'));
+define('WP_HOME', 'https://' . getenv('DOMAIN_NAME'));
 
 /**#@+
  * Authentication unique keys and salts.
@@ -81,7 +84,7 @@ $table_prefix = 'wp_';
  *
  * @link https://fr.wordpress.org/support/article/debugging-in-wordpress/
  */
-define('WP_DEBUG', false);
+define('WP_DEBUG', true);
 
 /* C’est tout, ne touchez pas à ce qui suit ! Bonne publication. */
 
