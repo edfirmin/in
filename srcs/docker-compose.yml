@@ -34,7 +34,7 @@ services:
     nginx: 
       container_name: nginx
       volumes:
-        - wordpress:/var/www/html
+        - wordpress:/var/www/wordpress
       networks:
         - inception
       depends_on:
@@ -48,7 +48,7 @@ services:
     wordpress:
       container_name: wordpress
       volumes:
-        - wordpress:/var/www/html
+        - wordpress:/var/www/wordpress
       networks:
         - inception
       depends_on:

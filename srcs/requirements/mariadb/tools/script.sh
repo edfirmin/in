@@ -4,13 +4,12 @@ if [ ! -d "/run/mysqld" ]; then
     mkdir -p /run/mysqld
 
     chown mysql:mysql /run/mysqld
-    chmod -R 777 /run/mysqld
+    chmod 750 /run/mysqld
 fi
 
 if [ ! -d "/var/lib/mysql/mysql" ]; then
     chown -R mysql:mysql /var/lib/mysql
     mysql_install_db --basedir=/usr --datadir=/var/lib/mysql --user=mysql --rpm > /dev/null
-    chmod -R 777 ./ddl_recovery.log
     tfile=`mktemp`
     if [ ! -f "$tfile" ]; then
         return 1
