@@ -3,13 +3,17 @@
 # RUN apk update && apk upgrade && apk add --no-cache mariadb mariadb-client mariadb-server-utils
 # RUN chown -R mysql:root /var/lib/mysql
 
-FROM debian:buster
+FROM alpine:3.18
+RUN apk update && \
+    apk upgrade &&\
+    apk add --no-cache \
+    mariadb \
+    mariadb-client \
+    mariadb-server-utils
+#RUN apk update && apk upgrade && apk add --no-cache mariadb mariadb-client mariadb-server-utils gettext
 
-RUN apt update -y && apt upgrade -y && apt-get install mariadb-server -y
+COPY ./tools/script.sh /script.sh
+RUN  chmod 777 /script.sh
 
-COPY ./conf/mariadb.cnf /etc/mysql/mariadb.cnf
-COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
-COPY ./tools/script.sh /
-RUN  chmod +x /script.sh
-
-ENTRYPOINT [ "/script.sh" ]
+EXPOSE 3306
+ENTRYPOINT ["sh", "/script.sh" ]
